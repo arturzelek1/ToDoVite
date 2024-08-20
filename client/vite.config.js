@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
+  base: "/ToDoVite/",
   plugins: [react()],
   server: {
     proxy: {
@@ -13,6 +14,6 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: "build",
+    outDir: "docs",
   },
 });
