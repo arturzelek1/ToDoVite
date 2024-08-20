@@ -1,0 +1,155 @@
+$font-family: Arial, sans-serif;
+$background-color: #f5f5f5;
+$link-color: #007bff;
+$link-hover-color: #0056b3;
+$navbar-bg-color: #343a40;
+$navbar-link-color: #ffffff;
+$navbar-link-hover-color: #cfd3d6;
+$todo-bg-color: #ffffff;
+$todo-border-color: #ddd;
+$todo-border-radius: 5px;
+$todo-padding: 15px;
+$todo-margin-bottom: 10px;
+$todo-completed-bg-color: #d4edda;
+$todo-completed-border-color: #c3e6cb;
+$button-bg-color: #dc3545;
+$button-hover-bg-color: #c82333;
+$button-text-color: #ffffff;
+$button-padding: 5px 10px;
+$button-radius: 5px;
+$form-bg-color: #ffffff;
+$form-border-color: #ddd;
+$form-padding: 15px;
+$input-padding: 10px;
+$input-border-radius: 5px;
+$form-button-bg-color: #28a745;
+$form-button-hover-bg-color: #218838;
+$chart-border-color: #ddd;
+$chart-border-radius: 5px;
+
+/* Global Styles */
+body {
+  font-family: $font-family;
+  margin: 0;
+  padding: 0;
+  background-color: $background-color;
+}
+
+a {
+  text-decoration: none;
+  color: $link-color;
+
+  &:hover {
+    color: $link-hover-color;
+    text-decoration: underline;
+  }
+}
+
+/* Navbar Styles */
+navbar {
+  background-color: $navbar-bg-color;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+  a {
+    color: $navbar-link-color;
+    font-weight: bold;
+
+    &:hover {
+      color: $navbar-link-hover-color;
+    }
+  }
+}
+
+/* App Container */
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Todo Styles */
+.todo {
+  background-color: $todo-bg-color;
+  border: 1px solid $todo-border-color;
+  border-radius: $todo-border-radius;
+  padding: $todo-padding;
+  margin-bottom: $todo-margin-bottom;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &.completed {
+    background-color: $todo-completed-bg-color;
+    border-color: $todo-completed-border-color;
+    text-decoration: line-through;
+  }
+
+  .todo-text {
+    flex: 1;
+  }
+
+  button {
+    background-color: $button-bg-color;
+    color: $button-text-color;
+    border: none;
+    padding: $button-padding;
+    border-radius: $button-radius;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: $button-hover-bg-color;
+    }
+  }
+}
+
+/* Todo Form Styles */
+.todo-form {
+  background-color: $form-bg-color;
+  border: 1px solid $form-border-color;
+  border-radius: $todo-border-radius;
+  padding: $form-padding;
+  margin-top: 20px;
+
+  input[type="text"] {
+    width: calc(100% - 60px);
+    padding: $input-padding;
+    border: 1px solid $form-border-color;
+    border-radius: $input-border-radius;
+  }
+
+  button {
+    background-color: $form-button-bg-color;
+    color: $button-text-color;
+    border: none;
+    padding: 10px 20px;
+    border-radius: $button-radius;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: $form-button-hover-bg-color;
+    }
+  }
+}
+
+/* Chart Container Styles */
+.chart-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  canvas {
+    border: 1px solid $chart-border-color;
+    border-radius: $chart-border-radius;
+  }
+}
+
+/* Date Picker Styles */
+.ant-picker {
+  margin-top: 10px;
+}

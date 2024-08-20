@@ -12,7 +12,7 @@ import Todo from "./ToDo.tsx";
 import TodoForm from "./ToDoForm";
 import Chart from "chart.js/auto";
 import { DatePicker } from "antd";
-import "./App.css";
+import "./App.scss";
 import MonthlyTasksChart from "./MonthlyTasksChart";
 import EditTodo from "./EditTodo";
 
