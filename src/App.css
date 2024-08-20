@@ -1,0 +1,126 @@
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Navbar Styles */
+navbar {
+  background-color: #343a40;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+navbar a {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+navbar a:hover {
+  color: #cfd3d6;
+}
+
+/* App Container */
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Todo Styles */
+.todo {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.todo.completed {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  text-decoration: line-through;
+}
+
+.todo .todo-text {
+  flex: 1;
+}
+
+.todo button {
+  background-color: #dc3545;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.todo button:hover {
+  background-color: #c82333;
+}
+
+/* Todo Form Styles */
+.todo-form {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 20px;
+}
+
+.todo-form input[type="text"] {
+  width: calc(100% - 60px);
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.todo-form button {
+  background-color: #28a745;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.todo-form button:hover {
+  background-color: #218838;
+}
+
+/* Chart Container Styles */
+.chart-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart-container canvas {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Date Picker Styles */
+.ant-picker {
+  margin-top: 10px;
+}
