@@ -14,7 +14,6 @@ export default defineConfig({
   },
   build: {
     outDir: "docs",
-    base: "client",
-    publish: "dist",
+    base: "ToDoVite",
   },
 });
