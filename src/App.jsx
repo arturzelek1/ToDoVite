@@ -9,7 +9,7 @@ import {
   setCompletedCount,
 } from "./store/todoSlice";
 import Todo from "./Todo";
-import TodoForm from "./TodoForm";
+import TodoForm from "./ToDoForm";
 import Chart from "chart.js/auto";
 import { DatePicker } from "antd";
 import "./App.css";
