@@ -8,7 +8,7 @@ import {
   deleteTodo,
   setCompletedCount,
 } from "./store/todoSlice";
-import Todo from "./ToDo";
+import Todo from "./ToDo.tsx";
 import TodoForm from "./ToDoForm";
 import Chart from "chart.js/auto";
 import { DatePicker } from "antd";
