@@ -1,38 +1,44 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setTodos,
+  addTodo,
+  updateTodo,
+  deleteTodo,
+  setCompletedCount,
+} from "./store/todoSlice";
 import Todo from "./ToDo";
 import TodoForm from "./ToDoForm";
 import "./App.css";
 import Chart from "chart.js/auto";
 import { DatePicker } from "antd";
 
+const API_URL = "http://localhost:5000/api/todos";
+
 function App() {
-  const [todos, setTodos] = useState([]);
-  const [completedCount, setCompletedCount] = useState({
-    Home: 0,
-    Personal: 0,
-    Study: 0,
-    Other: 0,
-  });
+  const dispatch = useDispatch();
+  const todos = useSelector((state) => state.todos.items);
+  const completedCount = useSelector((state) => state.todos.completedCount);
 
   useEffect(() => {
-    // Pobierz zadania z backendu
-    fetch("/api/todos")
+    fetch(API_URL)
       .then((response) => response.json())
       .then((data) => {
-        setTodos(data);
+        dispatch(setTodos(data));
         const count = data.reduce(
           (acc, todo) => {
             if (todo.isCompleted) acc[todo.category]++;
             return acc;
           },
-          { Home: 0, Personal: 0, Study: 0, Other: 0 }
+          { Home: 0, Work: 0, Study: 0, Other: 0 }
         );
-        setCompletedCount(count);
-      });
-  }, []);
+        dispatch(setCompletedCount(count));
+      })
+      .catch((error) => console.error("Error fetching todos:", error));
+  }, [dispatch]);
 
-  const addTodo = ({ text, category }) => {
-    fetch("/api/todos", {
+  const handleAddTodo = ({ text, category }) => {
+    fetch(API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -40,65 +46,70 @@ function App() {
       body: JSON.stringify({ text, category }),
     })
       .then((response) => response.json())
-      .then((todo) => setTodos([...todos, todo]));
+      .then((todo) => dispatch(addTodo(todo)))
+      .catch((error) => console.error("Error adding todo:", error));
   };
 
-  const completeTodo = (index, category) => {
+  const handleCompleteTodo = (index, category) => {
     const todo = todos[index];
-    fetch(`/api/todos/${todo._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...todo, isCompleted: true }),
-    })
-      .then((response) => response.json())
-      .then((updatedTodo) => {
-        const newTodos = [...todos];
-        newTodos[index] = updatedTodo;
-        setTodos(newTodos);
-        updateCompletedCount(category, 1);
-      });
+    if (!todo.isCompleted) {
+      fetch(`${API_URL}/${todo._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...todo, isCompleted: true }),
+      })
+        .then((response) => response.json())
+        .then((updatedTodo) => {
+          dispatch(updateTodo(updatedTodo));
+          updateCompletedCount(category, 1);
+        })
+        .catch((error) => console.error("Error completing todo:", error));
+    }
   };
 
-  const undoTodo = (index, category) => {
+  const handleUndoTodo = (index, category) => {
     const todo = todos[index];
-    fetch(`/api/todos/${todo._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...todo, isCompleted: false }),
-    })
-      .then((response) => response.json())
-      .then((updatedTodo) => {
-        const newTodos = [...todos];
-        newTodos[index] = updatedTodo;
-        setTodos(newTodos);
-        updateCompletedCount(category, -1);
-      });
+    if (todo.isCompleted) {
+      fetch(`${API_URL}/${todo._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...todo, isCompleted: false }),
+      })
+        .then((response) => response.json())
+        .then((updatedTodo) => {
+          dispatch(updateTodo(updatedTodo));
+          updateCompletedCount(category, -1);
+        })
+        .catch((error) => console.error("Error undoing todo:", error));
+    }
   };
 
-  const removeTodo = (index, category) => {
+  const handleRemoveTodo = (index, category) => {
     const todo = todos[index];
-    fetch(`/api/todos/${todo._id}`, {
+    fetch(`${API_URL}/${todo._id}`, {
       method: "DELETE",
-    }).then(() => {
-      const newTodos = [...todos];
-      newTodos.splice(index, 1);
-      setTodos(newTodos);
-      updateCompletedCount(category, -1);
-    });
+    })
+      .then(() => {
+        dispatch(deleteTodo(todo._id));
+        updateCompletedCount(category, -1);
+      })
+      .catch((error) => console.error("Error removing todo:", error));
   };
 
   const updateCompletedCount = (category, delta) => {
-    setCompletedCount((prevCount) => ({
-      ...prevCount,
-      [category]: prevCount[category] + delta,
-    }));
+    dispatch(
+      setCompletedCount({
+        ...completedCount,
+        [category]: completedCount[category] + delta,
+      })
+    );
   };
 
-  const chartRef = useRef(null);
+  const chartRef = React.useRef(null);
 
   useEffect(() => {
     if (chartRef.current) {
@@ -156,12 +167,12 @@ function App() {
             key={index}
             index={index}
             todo={todo}
-            completeTodo={() => completeTodo(index, todo.category)}
-            undoTodo={() => undoTodo(index, todo.category)}
-            removeTodo={() => removeTodo(index, todo.category)}
+            completeTodo={() => handleCompleteTodo(index, todo.category)}
+            undoTodo={() => handleUndoTodo(index, todo.category)}
+            removeTodo={() => handleRemoveTodo(index, todo.category)}
           />
         ))}
-        <TodoForm addTodo={addTodo} />
+        <TodoForm addTodo={handleAddTodo} />
       </div>
       <div className="chart-container">
         <DatePicker />

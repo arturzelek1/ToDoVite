@@ -68,6 +68,11 @@ app.delete("/api/todos/:id", async (req, res) => {
   }
 });
 
+// Strona główna (opcjonalnie)
+app.get("/", (req, res) => {
+  res.send("API is running");
+});
+
 // Start serwera
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
